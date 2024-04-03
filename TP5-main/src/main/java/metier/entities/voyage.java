@@ -7,34 +7,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity 
-@Table(name = "PRODUITS")
-public class Produit implements Serializable{
+@Table(name = "voyageS")
+public class voyage implements Serializable{
 @Id
-@Column (name="ID_PRODUIT")
+@Column (name="ID_voyage")
 @GeneratedValue (strategy=GenerationType.IDENTITY) 
-private Long idProduit;
-@Column (name="NOM_PRODUIT")
-private String nomProduit;
+private Long idvoyage;
+@Column (name="NOM_voyage")
+private String nomvoyage;
 private double prix;
-public Produit() {
+public voyage() {
 super();
 }
-public Produit(String nomProduit, double prix) {
+public voyage(String nomvoyage, double prix) {
 super();
-this.nomProduit = nomProduit;
+this.nomvoyage = nomvoyage;
 this.prix = prix;
 }
-public Long getIdProduit() {
-return idProduit;
+public Long getIdvoyage() {
+return idvoyage;
 }
-public void setIdProduit(Long idProduit) {
-this.idProduit = idProduit;
+public void setIdvoyage(Long idvoyage) {
+this.idvoyage = idvoyage;
 }
-public String getNomProduit() {
-return nomProduit;
+public String getNomvoyage() {
+return nomvoyage;
 }
-public void setNomProduit(String nomProduit) {
-this.nomProduit = nomProduit;
+public void setNomvoyage(String nomvoyage) {
+this.nomvoyage = nomvoyage;
 }
 public double getPrix() {
 return prix;
