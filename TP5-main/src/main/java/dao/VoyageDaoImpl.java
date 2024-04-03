@@ -2,12 +2,12 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import metier.entities.Produit;
+import metier.entities.voyage;
 import util.JPAutil;
-public class ProduitDaoImpl implements IProduitDao {
+public class voyageDaoImpl implements IvoyageDao {
 private EntityManager entityManager=JPAutil.getEntityManager("TP5_JEE");
 @Override
-public Produit save(Produit p) {
+public voyage save(voyage p) {
 	EntityTransaction tx = entityManager.getTransaction();
 	tx.begin();
 	entityManager.persist(p);
@@ -15,16 +15,16 @@ public Produit save(Produit p) {
 	return p;
 	}
 	@Override
-	public List<Produit> produitsParMC(String mc) {
-	List<Produit> prods = entityManager.createQuery("select p from Produit p where p.nomProduit like :mc").setParameter("mc", "%"+mc+"%").getResultList();
+	public List<voyage> voyagesParMC(String mc) {
+	List<voyage> prods = entityManager.createQuery("select p from voyage p where p.nomvoyage like :mc").setParameter("mc", "%"+mc+"%").getResultList();
 	 return prods;
 	}
 	@Override
-	public Produit getProduit(Long id) {
-	 return entityManager.find(Produit.class, id);
+	public voyage getvoyage(Long id) {
+	 return entityManager.find(voyage.class, id);
 	}
 	@Override
-	public Produit updateProduit(Produit p) {
+	public voyage updatevoyage(voyage p) {
 	EntityTransaction tx = entityManager.getTransaction();
 	tx.begin();
 	entityManager.merge(p);
@@ -32,10 +32,10 @@ public Produit save(Produit p) {
 	return p;
 	}
 	@Override
-	public void deleteProduit(Long id) {
-	Produit produit = entityManager.find(Produit.class, id);
+	public void deletevoyage(Long id) {
+	voyage voyage = entityManager.find(voyage.class, id);
 	entityManager.getTransaction().begin();
-	entityManager.remove(produit);
+	entityManager.remove(voyage);
 	entityManager.getTransaction().commit();
 	}
 	}
