@@ -8,25 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import metier.SingletonConnection;
-import metier.entities.Produit;
+import metier.entities.voyage;
 
-public class ProduitDaoImpl implements IProduitDao {
+public class voyageDaoImpl implements IvoyageDao {
 
 	@Override
-	public Produit save(Produit p) {
+	public voyage save(voyage p) {
 		 Connection conn=SingletonConnection.getConnection();
 	       try {
-			PreparedStatement ps= conn.prepareStatement("INSERT INTO PRODUITS(NOM_PRODUIT,PRIX) VALUES(?,?)");
-			ps.setString(1, p.getNomProduit());
+			PreparedStatement ps= conn.prepareStatement("INSERT INTO voyageS(NOM_voyage,PRIX) VALUES(?,?)");
+			ps.setString(1, p.getNomvoyage());
 			ps.setDouble(2, p.getPrix());
 			ps.executeUpdate();
 			
 			
 			PreparedStatement ps2= conn.prepareStatement
-					("SELECT MAX(ID_PRODUIT) as MAX_ID FROM PRODUITS");
+					("SELECT MAX(ID_voyage) as MAX_ID FROM voyageS");
 			ResultSet rs =ps2.executeQuery();
 			if (rs.next()) {
-				p.setIdProduit(rs.getLong("MAX_ID"));
+				p.setIdvoyage(rs.getLong("MAX_ID"));
 			}
 			ps.close();
 			ps2.close();
@@ -40,17 +40,17 @@ public class ProduitDaoImpl implements IProduitDao {
 	}
 
 	@Override
-	public List<Produit> produitsParMC(String mc) {
-	      List<Produit> prods= new ArrayList<Produit>();
+	public List<voyage> voyagesParMC(String mc) {
+	      List<voyage> prods= new ArrayList<voyage>();
 	       Connection conn=SingletonConnection.getConnection();
 	       try {
-			PreparedStatement ps= conn.prepareStatement("select * from PRODUITS where NOM_PRODUIT LIKE ?");
+			PreparedStatement ps= conn.prepareStatement("select * from voyageS where NOM_voyage LIKE ?");
 			ps.setString(1, "%"+mc+"%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Produit p = new Produit();
-				p.setIdProduit(rs.getLong("ID_PRODUIT"));
-				p.setNomProduit(rs.getString("NOM_PRODUIT"));
+				voyage p = new voyage();
+				p.setIdvoyage(rs.getLong("ID_voyage"));
+				p.setNomvoyage(rs.getString("NOM_voyage"));
 				p.setPrix(rs.getDouble("PRIX"));
 				prods.add(p);								
 			}
@@ -64,18 +64,18 @@ public class ProduitDaoImpl implements IProduitDao {
 	}
 
 	@Override
-	public Produit getProduit(Long id) {
+	public voyage getvoyage(Long id) {
 		    
 		   Connection conn=SingletonConnection.getConnection();
-		    Produit p = new Produit();
+		    voyage p = new voyage();
 	       try {
-			PreparedStatement ps= conn.prepareStatement("select * from PRODUITS where ID_PRODUIT = ?");
+			PreparedStatement ps= conn.prepareStatement("select * from voyageS where ID_voyage = ?");
 			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
 			if  (rs.next()) {
 				
-				p.setIdProduit(rs.getLong("ID_PRODUIT"));
-				p.setNomProduit(rs.getString("NOM_PRODUIT"));
+				p.setIdvoyage(rs.getLong("ID_voyage"));
+				p.setNomvoyage(rs.getString("NOM_voyage"));
 				p.setPrix(rs.getDouble("PRIX"));
 			}
 				
@@ -87,13 +87,13 @@ public class ProduitDaoImpl implements IProduitDao {
 	}
 
 	@Override
-	public Produit updateProduit(Produit p) {
+	public voyage updatevoyage(voyage p) {
 		Connection conn=SingletonConnection.getConnection();
 	       try {
-			PreparedStatement ps= conn.prepareStatement("UPDATE PRODUITS SET NOM_PRODUIT=?,PRIX=? WHERE ID_PRODUIT=?");
-			ps.setString(1, p.getNomProduit());
+			PreparedStatement ps= conn.prepareStatement("UPDATE voyageS SET NOM_voyage=?,PRIX=? WHERE ID_voyage=?");
+			ps.setString(1, p.getNomvoyage());
 			ps.setDouble(2, p.getPrix());
-			ps.setLong(3, p.getIdProduit());
+			ps.setLong(3, p.getIdvoyage());
 			ps.executeUpdate();
 			ps.close();
 					
@@ -105,10 +105,10 @@ public class ProduitDaoImpl implements IProduitDao {
 	}
 
 	@Override
-	public void deleteProduit(Long id) {
+	public void deletevoyage(Long id) {
 		 Connection conn=SingletonConnection.getConnection();
 	       try {
-			PreparedStatement ps= conn.prepareStatement("DELETE FROM PRODUITS WHERE ID_PRODUIT = ?");
+			PreparedStatement ps= conn.prepareStatement("DELETE FROM voyageS WHERE ID_voyage = ?");
 			ps.setLong(1, id);
 			ps.executeUpdate();
 			ps.close();
