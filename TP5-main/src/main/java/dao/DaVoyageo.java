@@ -1,11 +1,11 @@
 package dao;
 import java.util.List;
 
-import metier.entities.Produit;
-public interface IProduitDao {
-public Produit save(Produit p);
-public List<Produit> produitsParMC(String mc);
-public Produit getProduit(Long id);
-public Produit updateProduit(Produit p);
-public void deleteProduit(Long id);
+import metier.entities.voyage;
+public interface IvoyageDao {
+public voyage save(voyage p);
+public List<voyage> voyagesParMC(String mc);
+public voyage getvoyage(Long id);
+public voyage updatevoyage(voyage p);
+public void deletevoyage(Long id);
 }
