@@ -11,17 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.connector.Response;
 
-import dao.IProduitDao;
-import dao.ProduitDaoImpl;
-import metier.entities.Produit;
+import dao.IvoyageDao;
+import dao.voyageDaoImpl;
+import metier.entities.voyage;
 
 @WebServlet (name="cs",urlPatterns= {"/controleur","*.do"})
 public class ControleurServlet extends HttpServlet {
 	
-	 IProduitDao metier;
+	 IvoyageDao metier;
 	 @Override
 	public void init() throws ServletException {
-		metier = new ProduitDaoImpl();
+		metier = new voyageDaoImpl();
 	}
 	
 	@Override
@@ -31,34 +31,34 @@ public class ControleurServlet extends HttpServlet {
 		String path=request.getServletPath();
 		if (path.equals("/index.do"))
 		{
-			request.getRequestDispatcher("produits.jsp").forward(request,response);
+			request.getRequestDispatcher("voyages.jsp").forward(request,response);
 		}
 		else if (path.equals("/chercher.do"))
 		{
 			String motCle=request.getParameter("motCle");
-			ProduitModele model= new ProduitModele();
+			voyageModele model= new voyageModele();
 			model.setMotCle(motCle);
-			List<Produit> prods = metier.produitsParMC(motCle);
-			model.setProduits(prods);
+			List<voyage> prods = metier.voyagesParMC(motCle);
+			model.setvoyages(prods);
 			request.setAttribute("model", model);
-			request.getRequestDispatcher("produits.jsp").forward(request,response);
+			request.getRequestDispatcher("voyages.jsp").forward(request,response);
 		}
 		else if (path.equals("/saisie.do")  )
 		{
-			request.getRequestDispatcher("saisieProduit.jsp").forward(request,response);
+			request.getRequestDispatcher("saisievoyage.jsp").forward(request,response);
 		}
 		else if (path.equals("/save.do")  && request.getMethod().equals("POST"))
 		{
 		    String nom=request.getParameter("nom");
 			double prix = Double.parseDouble(request.getParameter("prix"));
-			Produit p = metier.save(new Produit(nom,prix));
-			request.setAttribute("produit", p);
+			voyage p = metier.save(new voyage(nom,prix));
+			request.setAttribute("voyage", p);
 			request.getRequestDispatcher("confirmation.jsp").forward(request,response);
 		}
 		else if (path.equals("/supprimer.do"))
 		{
 		    Long id= Long.parseLong(request.getParameter("id"));
-		    metier.deleteProduit(id);
+		    metier.deletevoyage(id);
 		    response.sendRedirect("chercher.do?motCle=");
 					
 			//request.getRequestDispatcher("confirmation.jsp").forward(request,response);
@@ -66,21 +66,21 @@ public class ControleurServlet extends HttpServlet {
 		else if (path.equals("/editer.do")  )
 		{
 			Long id= Long.parseLong(request.getParameter("id"));
-		    Produit p = metier.getProduit(id);
-		    request.setAttribute("produit", p);
-			request.getRequestDispatcher("editerProduit.jsp").forward(request,response);
+		    voyage p = metier.getvoyage(id);
+		    request.setAttribute("voyage", p);
+			request.getRequestDispatcher("editervoyage.jsp").forward(request,response);
 		}
 		else if (path.equals("/update.do")  )
 		{
 			 Long id = Long.parseLong(request.getParameter("id"));
 			 String nom=request.getParameter("nom");
 			 double prix = Double.parseDouble(request.getParameter("prix"));
-			 Produit p = new Produit();
-			 p.setIdProduit(id);
-			 p.setNomProduit(nom);
+			 voyage p = new voyage();
+			 p.setIdvoyage(id);
+			 p.setNomvoyage(nom);
 			 p.setPrix(prix);
-			 metier.updateProduit(p);
-			 request.setAttribute("produit", p);
+			 metier.updatevoyage(p);
+			 request.setAttribute("voyage", p);
 			 request.getRequestDispatcher("confirmation.jsp").forward(request,response);
 		}
 		else
